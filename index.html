@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website im Bau</title>
+<style>
+body { font-family: Arial,sans-serif; text-align:center; background:#f4f4f4; padding-top:100px; }
+.container { max-width:600px; margin:auto; background:#fff; padding:30px; border-radius:10px; box-shadow:0 0 15px rgba(0,0,0,0.2); }
+h1 { font-size:3em; margin-bottom:0.5em; }
+p { font-size:1.2em; }
+#timer { margin-top:20px; font-size:1em; color:#555; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>🚧 Website im Bau 🚧</h1>
+    <p>Unsere Seite ist gerade in Arbeit. Schau bald wieder vorbei!</p>
+    <div id="timer">Lade Timer…</div>
+</div>
+
+<script>
+// Erstellungsdatum: 26.10.2025, 10:12 Uhr
+const creationDate = new Date(2025, 9, 26, 10, 12, 0); // Monat 0-basiert (Oktober = 9)
+function updateTimer() {
+    const now = new Date();
+    let diff = now - creationDate;
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    diff -= days * (1000*60*60*24);
+    const hours = Math.floor(diff / (1000*60*60));
+    diff -= hours * (1000*60*60);
+    const minutes = Math.floor(diff / (1000*60));
+    diff -= minutes * (1000*60);
+    const seconds = Math.floor(diff / 1000);
+
+    document.getElementById('timer').textContent = `Online seit: ${days} Tage, ${hours} Stunden, ${minutes} Minuten, ${seconds} Sekunden`;
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+</script>
+</body>
+</html>
