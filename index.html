@@ -32,19 +32,18 @@ p { font-size: 1.2em; }
   width: 100%;
   height: 100%;
   background: #000;
-  margin: 0;
-  padding: 0;
 }
 #halloween img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* Ganzer Inhalt sichtbar */
   display: block;
+  background: #000; /* Schwarz hinter Bild bei Lücken */
 }
 #eventEnd {
-  position: fixed;
+  position: absolute;
   bottom: 15px;
-  left: 15px; /* jetzt links */
+  left: 15px; /* Timer links unten */
   color: #fff;
   background: rgba(0,0,0,0.6);
   padding: 5px 8px;
@@ -95,7 +94,7 @@ const eventEndElem = document.getElementById('eventEnd');
 
 function updateHalloween() {
   const now = new Date();
-  const eventStart = new Date(now.getFullYear(), 9, 31, 0, 0, 0);
+  const eventStart = new Date(now.getFullYear(), 9, 31, 0, 0, 0); // 31. Okt
   const eventEnd = new Date(now.getFullYear(), 9, 31, 23, 59, 59);
 
   if (now >= eventStart && now <= eventEnd) {
