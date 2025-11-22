@@ -1,0 +1,17 @@
+C:\Users\huhno\Documents\E\E\E\bin\Debug\net6.0\E.exe
+C:\Users\huhno\Documents\E\E\E\bin\Debug\net6.0\E.deps.json
+C:\Users\huhno\Documents\E\E\E\bin\Debug\net6.0\E.runtimeconfig.json
+C:\Users\huhno\Documents\E\E\E\bin\Debug\net6.0\E.dll
+C:\Users\huhno\Documents\E\E\E\bin\Debug\net6.0\E.pdb
+C:\Users\huhno\Documents\E\E\E\obj\Debug\net6.0\E.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\huhno\Documents\E\E\E\obj\Debug\net6.0\E.AssemblyInfoInputs.cache
+C:\Users\huhno\Documents\E\E\E\obj\Debug\net6.0\E.AssemblyInfo.cs
+C:\Users\huhno\Documents\E\E\E\obj\Debug\net6.0\E.csproj.CoreCompileInputs.cache
+C:\Users\huhno\Documents\E\E\E\obj\Debug\net6.0\E.dll
+C:\Users\huhno\Documents\E\E\E\obj\Debug\net6.0\refint\E.dll
+C:\Users\huhno\Documents\E\E\E\obj\Debug\net6.0\E.pdb
+C:\Users\huhno\Documents\E\E\E\obj\Debug\net6.0\E.genruntimeconfig.cache
+C:\Users\huhno\Documents\E\E\E\obj\Debug\net6.0\ref\E.dll
+C:\Users\huhno\Documents\E\E\E\bin\Debug\net6.0\System.Drawing.Common.dll
+C:\Users\huhno\Documents\E\E\E\obj\Debug\net6.0\E.csproj.AssemblyReference.cache
+C:\Users\huhno\Documents\E\E\E\obj\Debug\net6.0\E.csproj.Up2Date

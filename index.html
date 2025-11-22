@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6839050663417537"
+     crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-6839050663417537">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlaffyClicker</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('plaffy-clicker/GameData/Hintergrund.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        #plaImage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 200px;
+            cursor: pointer;
+        }
+
+        #score {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        #highscore {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 20px;
+            color: #0a3d00;
+            font-weight: bold;
+        }
+
+        #timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: black;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="score">0</div>
+    <div id="highscore">Highscore: 0</div>
+    <div id="timer">00:00:00</div>
+    <img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" onclick="playGifAudio()" alt="Bild">
+
+    <script>
+        let animating = false;
+        let score = 0;
+        let hue = 0;
+        let startTime = Date.now();
+
+        let highscore = localStorage.getItem('plaHighscore') || 0;
+        document.getElementById('highscore').textContent = "Highscore: " + highscore;
+
+        setInterval(() => {
+            let elapsed = Date.now() - startTime;
+            let h = Math.floor(elapsed / 3600000);
+            let m = Math.floor((elapsed % 3600000) / 60000);
+            let s = Math.floor((elapsed % 60000) / 1000);
+            document.getElementById('timer').textContent =
+                `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }, 1000);
+
+        setInterval(() => {
+            hue = (hue + 1) % 360;
+            document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
+        }, 20);
+
+        function playGifAudio() {
+            if (animating) return;
+            animating = true;
+
+            const img = document.getElementById('plaImage');
+            const original = 'plaffy-clicker/GameData/PlaffyIcon.png';
+            const gif = 'plaffy-clicker/GameData/PlaffyIcon.gif';
+
+            const sounds = [
+                'plaffy-clicker/GameData/Plaffy1.wav',
+                'plaffy-clicker/GameData/Plaffy2.wav',
+                'plaffy-clicker/GameData/Plaffy3.wav',
+                'plaffy-clicker/GameData/Plaffy4.wav'
+            ];
+            const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+
+            img.src = gif;
+            const audio = new Audio(randomSound);
+            audio.play();
+            audio.onended = () => {
+                img.src = original;
+                animating = false;
+            };
+
+            score++;
+            document.getElementById('score').textContent = score;
+
+            if (score > highscore) {
+                highscore = score;
+                localStorage.setItem('plaHighscore', highscore);
+                document.getElementById('highscore').textContent = "Highscore: " + highscore;
+            }
+        }
+    </script>
+
+</body>
+</html>
