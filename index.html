@@ -48,6 +48,18 @@
             color: black;
             font-weight: bold;
         }
+
+        #adBanner {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            pointer-events: none;
+        }
+        #adBanner iframe {
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body>
@@ -56,6 +68,7 @@
     <div id="highscore">Highscore: 0</div>
     <div id="timer">00:00:00</div>
     <img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" onclick="playGifAudio()" alt="Bild">
+    <div id="adBanner"></div>
 
     <script>
         let animating = false;
@@ -113,6 +126,42 @@
                 document.getElementById('highscore').textContent = "Highscore: " + highscore;
             }
         }
+
+        function loadAdsterraBanner() {
+            const adContainer = document.getElementById('adBanner');
+            adContainer.innerHTML = '';
+
+            const width = window.innerWidth;
+            let bannerWidth = 728;
+            let bannerHeight = 90;
+
+            if (width < 768) {
+                bannerWidth = 320;
+                bannerHeight = 50;
+            }
+
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.innerHTML = `
+                atOptions = {
+                    'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
+                    'format' : 'iframe',
+                    'height' : ${bannerHeight},
+                    'width' : ${bannerWidth},
+                    'params' : {}
+                };
+            `;
+
+            const invoke = document.createElement('script');
+            invoke.type = 'text/javascript';
+            invoke.src = '//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js';
+
+            adContainer.appendChild(script);
+            adContainer.appendChild(invoke);
+        }
+
+        window.addEventListener('load', loadAdsterraBanner);
+        window.addEventListener('resize', loadAdsterraBanner);
     </script>
 
 </body>
