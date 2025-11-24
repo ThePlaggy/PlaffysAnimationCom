@@ -5,11 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PlaffyClicker</title>
     <style>
-        body {
+        html, body {
             margin: 0;
             padding: 0;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
             background: url('plaffy-clicker/GameData/Hintergrund.png') no-repeat center center fixed;
             background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            flex: 1;
         }
 
         #plaImage {
@@ -17,17 +33,19 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 300px;
-            height: 200px;
+            width: 40vw;
+            max-width: 300px;
+            height: auto;
             cursor: pointer;
         }
 
         #score {
             position: absolute;
-            top: 35%;
+            top: 25%;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 50px;
+            font-size: 8vw;
+            max-font-size: 50px;
             font-weight: bold;
         }
 
@@ -35,7 +53,8 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            font-size: 20px;
+            font-size: 4vw;
+            max-font-size: 20px;
             color: #0a3d00;
             font-weight: bold;
         }
@@ -44,26 +63,34 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            font-size: 20px;
+            font-size: 4vw;
+            max-font-size: 20px;
             color: black;
             font-weight: bold;
         }
 
-        /* Container für die Werbung */
+        /* Werbung responsive unten mittig */
         #container-538ca2f30d383269a99741d8fa2e1b4c {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            margin: 10px auto 0 auto;
+        }
+
+        /* Abstand zwischen Spiel und Werbung */
+        #game-container {
+            margin-bottom: 80px; /* Platz für Ad */
         }
     </style>
 </head>
 <body>
 
-    <div id="score">0</div>
-    <div id="highscore">Highscore: 0</div>
-    <div id="timer">00:00:00</div>
-    <img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" onclick="playGifAudio()" alt="Bild">
+    <div id="game-container">
+        <div id="score">0</div>
+        <div id="highscore">Highscore: 0</div>
+        <div id="timer">00:00:00</div>
+        <img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" onclick="playGifAudio()" alt="Bild">
+    </div>
 
     <!-- Werbung -->
     <div id="container-538ca2f30d383269a99741d8fa2e1b4c"></div>
