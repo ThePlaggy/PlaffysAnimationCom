@@ -5,70 +5,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Twitch Befehle</title>
 <style>
-    html, body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-        font-family: sans-serif;
-    }
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: sans-serif;
+}
 
-    .StartText {
-        font-size: 30px;
-        font-weight: bold;
-        font-style: italic; 
-        margin: 20px;
-    }
+.StartText {
+    font-size: 30px;
+    font-weight: bold;
+    font-style: italic; 
+    margin: 20px;
+}
 
-    .Befehle {
-        font-size: 25px;
-        font-style: italic;
-        color: rgb(179, 77, 37);
-        margin: 10px 20px;
-    }
+.Befehle {
+    font-size: 25px;
+    font-style: italic;
+    color: rgb(179, 77, 37);
+    margin: 10px 20px;
+}
 
-    .Befehle:hover {
-        color: rgb(0, 255, 200);
-    }
+.Befehle:hover {
+    color: rgb(0, 255, 200);
+}
 
-    .TextTeil2 {
-        font-size: 25px;
-        font-style: italic;
-        text-decoration: none;
-        color: rgb(14, 44, 179);
-        margin-left: 20px;
-        display: inline-block;
-    }
+.TextTeil2 {
+    font-size: 25px;
+    font-style: italic;
+    text-decoration: none;
+    color: rgb(14, 44, 179);
+    margin-left: 20px;
+    display: inline-block;
+}
 
-    .TextTeil2:hover {
-        color: rgb(250, 51, 51);
-    }
+.TextTeil2:hover {
+    color: rgb(250, 51, 51);
+}
 
-    #adBanner {
-        position: sticky;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 10;
-        height: 90px;
-        width: 728px;
-        pointer-events: none;
-        margin-top: 20px;
-    }
+#adBannerTop, #adBannerBottom {
+    width: 728px;
+    height: 90px;
+    pointer-events: none;
+    margin: 20px auto;
+    display: block;
+}
 
-    #adBanner iframe {
-        pointer-events: auto;
-        transform-origin: bottom center;
-    }
+#adBannerTop iframe, #adBannerBottom iframe {
+    pointer-events: auto;
+}
 
-    @media (max-width: 767px) {
-        #adBanner {
-            transform: translateX(-50%) scale(0.44);
-            height: 50px;
-        }
+#adBannerBottom {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+@media (max-width: 767px) {
+    #adBannerTop, #adBannerBottom {
+        width: 320px;
+        height: 50px;
     }
+}
 </style>
 </head>
 <body>
+
+<div id="adBannerTop"></div>
 
 <p class="StartText">Willkommen Auf Meiner Website Hier Sehen Sie Alle Twitch Befehle Für Mein Twitch Account</p>
 <p class="Befehle">Hier Sind Die Preise Und Befehle Aufgelistet die Kann Man Hier Ausführen:</p>
@@ -87,11 +92,11 @@
 <p class="Befehle">!redeem psst = 45 camembert | !redeem hack = 50 camembert</p>
 <p class="Befehle">!redeem befehle | !redeem spende | !redeem shop | !redeem server | !redeem devlist | !redeemcamembert</p>
 
-<div id="adBanner"></div>
+<div id="adBannerBottom"></div>
 
 <script>
-function loadAdsterraBanner() {
-    const adContainer = document.getElementById('adBanner');
+function loadAdsterraBanner(adContainerId) {
+    const adContainer = document.getElementById(adContainerId);
     adContainer.innerHTML = '';
 
     const width = window.innerWidth;
@@ -114,6 +119,7 @@ function loadAdsterraBanner() {
             'params' : {}
         };
     `;
+
     const invoke = document.createElement('script');
     invoke.type = 'text/javascript';
     invoke.src = '//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js';
@@ -122,8 +128,15 @@ function loadAdsterraBanner() {
     adContainer.appendChild(invoke);
 }
 
-window.addEventListener('load', loadAdsterraBanner);
-window.addEventListener('resize', loadAdsterraBanner);
+window.addEventListener('load', () => {
+    loadAdsterraBanner('adBannerTop');
+    loadAdsterraBanner('adBannerBottom');
+});
+
+window.addEventListener('resize', () => {
+    loadAdsterraBanner('adBannerTop');
+    loadAdsterraBanner('adBannerBottom');
+});
 </script>
 
 </body>
