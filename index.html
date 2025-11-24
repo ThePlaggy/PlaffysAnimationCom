@@ -55,16 +55,22 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
+    height: 90px;
+    width: 728px;
     pointer-events: none;
-    max-width: 100%;
 }
+
 #adBanner iframe {
     pointer-events: auto;
-    width: 100%;
-    height: auto;
-    max-width: 728px;
-    max-height: 90px;
+    transform-origin: bottom center;
 }
+
+@media (max-width: 767px) {
+    #adBanner {
+        transform: translateX(-50%) scale(0.44);
+    }
+}
+
     </style>
 </head>
 <body>
