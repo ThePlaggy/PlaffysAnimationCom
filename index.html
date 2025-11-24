@@ -50,16 +50,21 @@
         }
 
         #adBanner {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            pointer-events: none;
-        }
-        #adBanner iframe {
-            pointer-events: auto;
-        }
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: none;
+    max-width: 100%;
+}
+#adBanner iframe {
+    pointer-events: auto;
+    width: 100%;
+    height: auto;
+    max-width: 728px;
+    max-height: 90px;
+}
     </style>
 </head>
 <body>
