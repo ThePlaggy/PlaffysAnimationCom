@@ -19,7 +19,7 @@ body {
     font-family: sans-serif;
 }
 
-/* Spiel-Elemente */
+/* Plaffy immer vertikal mittig */
 #plaImage {
     width: 40vw;
     max-width: 300px;
@@ -29,54 +29,50 @@ body {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    z-index: 5; /* Über Werbung */
+    z-index: 5;
+}
+
+/* GUI Elemente */
+.gui {
+    position: absolute;
+    font-weight: bold;
+    z-index: 5;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #score {
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translateX(-50%);
     font-size: 8vw;
     max-font-size: 50px;
-    font-weight: bold;
-    z-index: 5;
+    top: 15%;
 }
 
 #highscore {
-    position: absolute;
-    top: 5%;
-    left: 5%;
     font-size: 4vw;
     max-font-size: 20px;
-    color: #0a3d00;
-    font-weight: bold;
-    z-index: 5;
+    top: 5%;
 }
 
 #timer {
-    position: absolute;
-    top: 5%;
-    right: 5%;
     font-size: 4vw;
     max-font-size: 20px;
-    color: black;
-    font-weight: bold;
-    z-index: 5;
+    top: 5%;
+    right: 5%;
+    left: auto;
+    transform: none;
 }
 
-/* Banner immer unten, zentriert */
+/* Banner unten */
 #ad-container {
     position: fixed;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 728px; /* Desktop Leaderboard */
+    max-width: 728px;
     height: 90px;
     text-align: center;
-    z-index: 1; /* Unter Spiel */
-    pointer-events: auto; /* Banner klickbar, Spiel bleibt oben klickbar */
+    z-index: 1;
 }
 
 /* Auf kleinen Bildschirmen kleiner Banner */
@@ -90,9 +86,9 @@ body {
 </head>
 <body>
 
-<div id="score">0</div>
-<div id="highscore">Highscore: 0</div>
-<div id="timer">00:00:00</div>
+<div id="score" class="gui">0</div>
+<div id="highscore" class="gui">Highscore: 0</div>
+<div id="timer" class="gui">00:00:00</div>
 <img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" alt="Bild">
 
 <!-- Ad-Container -->
@@ -135,6 +131,30 @@ setInterval(() => {
     hue = (hue + 1) % 360;
     document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
 }, 20);
+
+// GUI nach oben schieben, wenn Ad Banner die GUI verdeckt
+function adjustGui() {
+    const ad = document.getElementById('ad-container');
+    const guiElements = document.querySelectorAll('.gui');
+    const adHeight = ad.offsetHeight || 0;
+    guiElements.forEach(el => {
+        el.style.bottom = adHeight + 10 + 'px';
+        if(el.id === 'score' || el.id === 'highscore') {
+            el.style.top = 'auto';
+            el.style.bottom = adHeight + 90 + 'px'; // Abstand zum Banner
+        }
+    });
+}
+
+// Plaffy immer mittig
+function adjustPlaffy() {
+    const img = document.getElementById('plaImage');
+    img.style.top = '50%';
+}
+
+// Anpassung bei Laden und Resize
+window.addEventListener('load', () => { adjustGui(); adjustPlaffy(); });
+window.addEventListener('resize', () => { adjustGui(); adjustPlaffy(); });
 
 function playGifAudio() {
     if (animating) return;
