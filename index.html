@@ -9,7 +9,7 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden; /* Kein Scrollen */
+    overflow: hidden;
 }
 
 body {
@@ -44,19 +44,17 @@ body {
 #score {
     font-size: 8vw;
     max-font-size: 50px;
-    top: 15%;
 }
 
 #highscore {
     font-size: 4vw;
     max-font-size: 20px;
-    top: 5%;
+    color: #0a3d00;
 }
 
 #timer {
     font-size: 4vw;
     max-font-size: 20px;
-    top: 5%;
     right: 5%;
     left: auto;
     transform: none;
@@ -73,9 +71,9 @@ body {
     height: 90px;
     text-align: center;
     z-index: 1;
+    pointer-events: auto;
 }
 
-/* Auf kleinen Bildschirmen kleiner Banner */
 @media (max-width: 480px) {
     #ad-container {
         max-width: 320px;
@@ -132,17 +130,13 @@ setInterval(() => {
     document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
 }, 20);
 
-// GUI nach oben schieben, wenn Ad Banner die GUI verdeckt
+// GUI nach unten verschieben (5% Abstand zum Banner)
 function adjustGui() {
     const ad = document.getElementById('ad-container');
     const guiElements = document.querySelectorAll('.gui');
     const adHeight = ad.offsetHeight || 0;
     guiElements.forEach(el => {
-        el.style.bottom = adHeight + 10 + 'px';
-        if(el.id === 'score' || el.id === 'highscore') {
-            el.style.top = 'auto';
-            el.style.bottom = adHeight + 90 + 'px'; // Abstand zum Banner
-        }
+        el.style.top = `calc(${el.id === 'score' ? '15%' : el.id === 'highscore' ? '5%' : '5%'} + ${adHeight*0.05}px)`;
     });
 }
 
@@ -152,7 +146,6 @@ function adjustPlaffy() {
     img.style.top = '50%';
 }
 
-// Anpassung bei Laden und Resize
 window.addEventListener('load', () => { adjustGui(); adjustPlaffy(); });
 window.addEventListener('resize', () => { adjustGui(); adjustPlaffy(); });
 
