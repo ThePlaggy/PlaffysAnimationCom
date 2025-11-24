@@ -1,158 +1,179 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlaffyClicker</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: url('plaffy-clicker/GameData/Hintergrund.png') no-repeat center center fixed;
-            background-size: cover;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlaffyClicker</title>
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* Kein Scrollen */
+}
 
-        #plaImage {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 200px;
-            cursor: pointer;
-            z-index: 5;
-        }
+body {
+    background: url('plaffy-clicker/GameData/Hintergrund.png') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    font-family: sans-serif;
+}
 
-        #score {
-            position: absolute;
-            top: 35%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 50px;
-            font-weight: bold;
-            z-index: 5;
-        }
+/* Plaffy immer vertikal mittig */
+#plaImage {
+    width: 40vw;
+    max-width: 300px;
+    height: auto;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+}
 
-        #highscore {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 20px;
-            color: #0a3d00;
-            font-weight: bold;
-            z-index: 5;
-        }
+/* GUI Elemente */
+.gui {
+    position: absolute;
+    font-weight: bold;
+    z-index: 5;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
-        #timer {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            color: black;
-            font-weight: bold;
-            z-index: 5;
-        }
+#score {
+    font-size: 6vw; /* um 2 kleiner */
+    max-font-size: 50px;
+    top: calc(15% + 10%); /* 10% nach unten verschoben */
+}
 
-        /* Ad-Container */
-        #ad-container {
-            position: absolute;
-            top: 40px; /* direkt unter Highscore */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 728px;
-            height: 90px;
-            z-index: 1;
-            pointer-events: auto;
-        }
+#highscore {
+    font-size: 4vw;
+    max-font-size: 20px;
+    color: #0a3d00;
+    top: calc(5% + 10%);
+}
 
-        @media (max-width: 480px) {
-            #ad-container {
-                width: 320px;
-                height: 50px;
-            }
-        }
-    </style>
+#timer {
+    font-size: 4vw;
+    max-font-size: 20px;
+    right: 5%;
+    left: auto;
+    top: calc(5% + 10%);
+}
+
+/* Banner immer unten */
+#ad-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 728px;
+    height: 90px;
+    text-align: center;
+    z-index: 1;
+    pointer-events: auto;
+}
+
+@media (max-width: 480px) {
+    #ad-container {
+        max-width: 320px;
+        height: 50px;
+    }
+}
+</style>
 </head>
 <body>
 
-    <div id="score">0</div>
-    <div id="highscore">Highscore: 0</div>
+<div id="score" class="gui">0</div>
+<div id="highscore" class="gui">Highscore: 0</div>
+<div id="timer" class="gui">00:00:00</div>
+<img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" alt="Bild">
 
-    <!-- Ad-Container direkt hinter Highscore -->
-    <div id="ad-container"></div>
+<!-- Ad-Container -->
+<div id="ad-container"></div>
 
-    <div id="timer">00:00:00</div>
-    <img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" onclick="playGifAudio()" alt="Bild">
+<!-- Ad-Script -->
+<script type="text/javascript">
+    atOptions = {
+        'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+    };
+</script>
+<script type="text/javascript" src="https://www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js" async></script>
 
-    <!-- Ad-Script -->
-    <script type="text/javascript">
-        atOptions = {
-            'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
-            'format' : 'iframe',
-            'height' : 90,
-            'width' : 728,
-            'params' : {}
-        };
-    </script>
-    <script type="text/javascript" src="//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js" async></script>
+<script>
+// Spiel-Logik
+let animating = false;
+let score = 0;
+let hue = 0;
+let startTime = Date.now();
 
-    <script>
-        let animating = false;
-        let score = 0;
-        let hue = 0;
-        let startTime = Date.now();
+let highscore = localStorage.getItem('plaHighscore') || 0;
+document.getElementById('highscore').textContent = "Highscore: " + highscore;
 
-        let highscore = localStorage.getItem('plaHighscore') || 0;
+// Timer
+setInterval(() => {
+    let elapsed = Date.now() - startTime;
+    let h = Math.floor(elapsed / 3600000);
+    let m = Math.floor((elapsed % 3600000) / 60000);
+    let s = Math.floor((elapsed % 60000) / 1000);
+    document.getElementById('timer').textContent =
+        `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}, 1000);
+
+// Score Farbe
+setInterval(() => {
+    hue = (hue + 1) % 360;
+    document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
+}, 20);
+
+// Plaffy und GUI Anpassung
+function adjustGui() {
+    // Hier könnte man bei Bedarf weitere Anpassungen machen
+    // Banner-Offset ist schon durch CSS berücksichtigt
+}
+window.addEventListener('load', adjustGui);
+window.addEventListener('resize', adjustGui);
+
+function playGifAudio() {
+    if (animating) return;
+    animating = true;
+
+    const img = document.getElementById('plaImage');
+    const original = 'plaffy-clicker/GameData/PlaffyIcon.png';
+    const gif = 'plaffy-clicker/GameData/PlaffyIcon.gif';
+
+    const sounds = [
+        'plaffy-clicker/GameData/Plaffy1.wav',
+        'plaffy-clicker/GameData/Plaffy2.wav',
+        'plaffy-clicker/GameData/Plaffy3.wav',
+        'plaffy-clicker/GameData/Plaffy4.wav'
+    ];
+    const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+
+    img.src = gif;
+    const audio = new Audio(randomSound);
+    audio.play();
+    audio.onended = () => {
+        img.src = original;
+        animating = false;
+    };
+
+    score++;
+    document.getElementById('score').textContent = score;
+
+    if (score > highscore) {
+        highscore = score;
+        localStorage.setItem('plaHighscore', highscore);
         document.getElementById('highscore').textContent = "Highscore: " + highscore;
-
-        setInterval(() => {
-            let elapsed = Date.now() - startTime;
-            let h = Math.floor(elapsed / 3600000);
-            let m = Math.floor((elapsed % 3600000) / 60000);
-            let s = Math.floor((elapsed % 60000) / 1000);
-            document.getElementById('timer').textContent =
-                `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-        }, 1000);
-
-        setInterval(() => {
-            hue = (hue + 1) % 360;
-            document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
-        }, 20);
-
-        function playGifAudio() {
-            if (animating) return;
-            animating = true;
-
-            const img = document.getElementById('plaImage');
-            const original = 'plaffy-clicker/GameData/PlaffyIcon.png';
-            const gif = 'plaffy-clicker/GameData/PlaffyIcon.gif';
-
-            const sounds = [
-                'plaffy-clicker/GameData/Plaffy1.wav',
-                'plaffy-clicker/GameData/Plaffy2.wav',
-                'plaffy-clicker/GameData/Plaffy3.wav',
-                'plaffy-clicker/GameData/Plaffy4.wav'
-            ];
-            const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
-
-            img.src = gif;
-            const audio = new Audio(randomSound);
-            audio.play();
-            audio.onended = () => {
-                img.src = original;
-                animating = false;
-            };
-
-            score++;
-            document.getElementById('score').textContent = score;
-
-            if (score > highscore) {
-                highscore = score;
-                localStorage.setItem('plaHighscore', highscore);
-                document.getElementById('highscore').textContent = "Highscore: " + highscore;
-            }
-        }
-    </script>
+    }
+}
+</script>
 
 </body>
 </html>
