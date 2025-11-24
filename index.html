@@ -9,7 +9,7 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden;
+    overflow: hidden; /* Kein Scrollen */
 }
 
 body {
@@ -36,20 +36,22 @@ body {
 .gui {
     position: absolute;
     font-weight: bold;
-    z-index: 25;
+    z-index: 5;
     left: 50%;
     transform: translateX(-50%);
 }
 
 #score {
-    font-size: 8vw;
+    font-size: 6vw; /* um 2 kleiner */
     max-font-size: 50px;
+    top: calc(15% + 10%); /* 10% nach unten verschoben */
 }
 
 #highscore {
     font-size: 4vw;
     max-font-size: 20px;
     color: #0a3d00;
+    top: calc(5% + 10%);
 }
 
 #timer {
@@ -57,10 +59,10 @@ body {
     max-font-size: 20px;
     right: 5%;
     left: auto;
-    transform: none;
+    top: calc(5% + 10%);
 }
 
-/* Banner unten */
+/* Banner immer unten */
 #ad-container {
     position: fixed;
     bottom: 0;
@@ -130,24 +132,13 @@ setInterval(() => {
     document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
 }, 20);
 
-// GUI nach unten verschieben (5% Abstand zum Banner)
+// Plaffy und GUI Anpassung
 function adjustGui() {
-    const ad = document.getElementById('ad-container');
-    const guiElements = document.querySelectorAll('.gui');
-    const adHeight = ad.offsetHeight || 0;
-    guiElements.forEach(el => {
-        el.style.top = `calc(${el.id === 'score' ? '15%' : el.id === 'highscore' ? '5%' : '5%'} + ${adHeight*0.05}px)`;
-    });
+    // Hier könnte man bei Bedarf weitere Anpassungen machen
+    // Banner-Offset ist schon durch CSS berücksichtigt
 }
-
-// Plaffy immer mittig
-function adjustPlaffy() {
-    const img = document.getElementById('plaImage');
-    img.style.top = '50%';
-}
-
-window.addEventListener('load', () => { adjustGui(); adjustPlaffy(); });
-window.addEventListener('resize', () => { adjustGui(); adjustPlaffy(); });
+window.addEventListener('load', adjustGui);
+window.addEventListener('resize', adjustGui);
 
 function playGifAudio() {
     if (animating) return;
