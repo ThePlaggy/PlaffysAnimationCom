@@ -1,158 +1,149 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlaffyClicker</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow-x: hidden;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlaffyClicker</title>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden; /* Kein Scrollen */
+    }
 
-        body {
-            background: url('plaffy-clicker/GameData/Hintergrund.png') no-repeat center center fixed;
-            background-size: cover;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+    body {
+        background: url('plaffy-clicker/GameData/Hintergrund.png') no-repeat center center fixed;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
 
-        #game-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            flex: 1;
-        }
+    #plaImage {
+        width: 40vw;
+        max-width: 300px;
+        height: auto;
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 
-        #plaImage {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40vw;
-            max-width: 300px;
-            height: auto;
-            cursor: pointer;
-        }
+    #score {
+        position: absolute;
+        top: 25%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 8vw;
+        max-font-size: 50px;
+        font-weight: bold;
+    }
 
-        #score {
-            position: absolute;
-            top: 25%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 8vw;
-            max-font-size: 50px;
-            font-weight: bold;
-        }
+    #highscore {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 4vw;
+        max-font-size: 20px;
+        color: #0a3d00;
+        font-weight: bold;
+    }
 
-        #highscore {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 4vw;
-            max-font-size: 20px;
-            color: #0a3d00;
-            font-weight: bold;
-        }
+    #timer {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 4vw;
+        max-font-size: 20px;
+        color: black;
+        font-weight: bold;
+    }
 
-        #timer {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 4vw;
-            max-font-size: 20px;
-            color: black;
-            font-weight: bold;
-        }
-
-        /* Werbung responsive unten mittig */
-        #container-538ca2f30d383269a99741d8fa2e1b4c {
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            margin: 10px auto 0 auto;
-        }
-
-        /* Abstand zwischen Spiel und Werbung */
-        #game-container {
-            margin-bottom: 80px; /* Platz für Ad */
-        }
-    </style>
+    /* Werbung fixiert unten */
+    #container-538ca2f30d383269a99741d8fa2e1b4c {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+        z-index: 10; /* Sicherstellen, dass sie über Hintergrund liegt */
+    }
+</style>
 </head>
 <body>
 
-    <div id="game-container">
-        <div id="score">0</div>
-        <div id="highscore">Highscore: 0</div>
-        <div id="timer">00:00:00</div>
-        <img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" onclick="playGifAudio()" alt="Bild">
-    </div>
+<div id="score">0</div>
+<div id="highscore">Highscore: 0</div>
+<div id="timer">00:00:00</div>
+<img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" onclick="playGifAudio()" alt="Bild">
 
-    <!-- Werbung -->
-    <div id="container-538ca2f30d383269a99741d8fa2e1b4c"></div>
-    <script async="async" data-cfasync="false" src="//pl28128722.effectivegatecpm.com/538ca2f30d383269a99741d8fa2e1b4c/invoke.js"></script>
+<!-- Werbung -->
+<div id="container-538ca2f30d383269a99741d8fa2e1b4c"></div>
+<script async="async" data-cfasync="false" src="//pl28128722.effectivegatecpm.com/538ca2f30d383269a99741d8fa2e1b4c/invoke.js"></script>
 
-    <script>
-        let animating = false;
-        let score = 0;
-        let hue = 0;
-        let startTime = Date.now();
+<script>
+let animating = false;
+let score = 0;
+let hue = 0;
+let startTime = Date.now();
 
-        let highscore = localStorage.getItem('plaHighscore') || 0;
+let highscore = localStorage.getItem('plaHighscore') || 0;
+document.getElementById('highscore').textContent = "Highscore: " + highscore;
+
+setInterval(() => {
+    let elapsed = Date.now() - startTime;
+    let h = Math.floor(elapsed / 3600000);
+    let m = Math.floor((elapsed % 3600000) / 60000);
+    let s = Math.floor((elapsed % 60000) / 1000);
+    document.getElementById('timer').textContent =
+        `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}, 1000);
+
+setInterval(() => {
+    hue = (hue + 1) % 360;
+    document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
+}, 20);
+
+function playGifAudio() {
+    if (animating) return;
+    animating = true;
+
+    const img = document.getElementById('plaImage');
+    const original = 'plaffy-clicker/GameData/PlaffyIcon.png';
+    const gif = 'plaffy-clicker/GameData/PlaffyIcon.gif';
+
+    const sounds = [
+        'plaffy-clicker/GameData/Plaffy1.wav',
+        'plaffy-clicker/GameData/Plaffy2.wav',
+        'plaffy-clicker/GameData/Plaffy3.wav',
+        'plaffy-clicker/GameData/Plaffy4.wav'
+    ];
+    const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+
+    img.src = gif;
+    const audio = new Audio(randomSound);
+    audio.play();
+    audio.onended = () => {
+        img.src = original;
+        animating = false;
+    };
+
+    score++;
+    document.getElementById('score').textContent = score;
+
+    if (score > highscore) {
+        highscore = score;
+        localStorage.setItem('plaHighscore', highscore);
         document.getElementById('highscore').textContent = "Highscore: " + highscore;
-
-        setInterval(() => {
-            let elapsed = Date.now() - startTime;
-            let h = Math.floor(elapsed / 3600000);
-            let m = Math.floor((elapsed % 3600000) / 60000);
-            let s = Math.floor((elapsed % 60000) / 1000);
-            document.getElementById('timer').textContent =
-                `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        }, 1000);
-
-        setInterval(() => {
-            hue = (hue + 1) % 360;
-            document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
-        }, 20);
-
-        function playGifAudio() {
-            if (animating) return;
-            animating = true;
-
-            const img = document.getElementById('plaImage');
-            const original = 'plaffy-clicker/GameData/PlaffyIcon.png';
-            const gif = 'plaffy-clicker/GameData/PlaffyIcon.gif';
-
-            const sounds = [
-                'plaffy-clicker/GameData/Plaffy1.wav',
-                'plaffy-clicker/GameData/Plaffy2.wav',
-                'plaffy-clicker/GameData/Plaffy3.wav',
-                'plaffy-clicker/GameData/Plaffy4.wav'
-            ];
-            const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
-
-            img.src = gif;
-            const audio = new Audio(randomSound);
-            audio.play();
-            audio.onended = () => {
-                img.src = original;
-                animating = false;
-            };
-
-            score++;
-            document.getElementById('score').textContent = score;
-
-            if (score > highscore) {
-                highscore = score;
-                localStorage.setItem('plaHighscore', highscore);
-                document.getElementById('highscore').textContent = "Highscore: " + highscore;
-            }
-        }
-    </script>
+    }
+}
+</script>
 
 </body>
 </html>
