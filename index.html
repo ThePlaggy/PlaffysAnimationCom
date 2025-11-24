@@ -15,22 +15,20 @@
     body {
         background: url('plaffy-clicker/GameData/Hintergrund.png') no-repeat center center fixed;
         background-size: cover;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
         position: relative;
+        font-family: sans-serif;
     }
 
     #plaImage {
-        width: 40vw;
-        max-width: 300px;
-        height: auto;
-        cursor: pointer;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        width: 40vw;
+        max-width: 300px;
+        height: auto;
+        cursor: pointer;
+        z-index: 5; /* Über Werbung */
     }
 
     #score {
@@ -41,6 +39,7 @@
         font-size: 8vw;
         max-font-size: 50px;
         font-weight: bold;
+        z-index: 5;
     }
 
     #highscore {
@@ -51,6 +50,7 @@
         max-font-size: 20px;
         color: #0a3d00;
         font-weight: bold;
+        z-index: 5;
     }
 
     #timer {
@@ -61,18 +61,19 @@
         max-font-size: 20px;
         color: black;
         font-weight: bold;
+        z-index: 5;
     }
 
-    /* Werbung fixiert unten */
+    /* Werbung immer unten, fixiert, über Hintergrund, unter Spiel */
     #container-538ca2f30d383269a99741d8fa2e1b4c {
-        position: absolute;
+        position: fixed;
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
         width: 100%;
         max-width: 500px;
         text-align: center;
-        z-index: 10; /* Sicherstellen, dass sie über Hintergrund liegt */
+        z-index: 1; /* Unter Spiel */
     }
 </style>
 </head>
