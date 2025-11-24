@@ -1,123 +1,130 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Twitch Befehle</title>
-    <style>
-        .StartText {
-            position: relative;
-            font-size: 30px;
-            font-weight: bold;
-            font-style: italic; 
-            left: 350px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twitch Befehle</title>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        font-family: sans-serif;
+    }
 
-        .Befehle {
-            position: relative;
-            font-size: 25px;
-            font-style: italic;
-            color: rgb(179, 77, 37);
-        }
+    .StartText {
+        font-size: 30px;
+        font-weight: bold;
+        font-style: italic; 
+        margin: 20px;
+    }
 
-        .Befehle:hover {
-            color: rgb(0, 255, 200);
-        }
+    .Befehle {
+        font-size: 25px;
+        font-style: italic;
+        color: rgb(179, 77, 37);
+        margin: 10px 20px;
+    }
 
-        .TextTeil2 {
-            position: relative;
-            font-size: 25px;
-            font-style: italic;
-            top: -53px;
-            left: 780px;
-            text-decoration: none;
-            color: rgb(14, 44, 179);
-        }
+    .Befehle:hover {
+        color: rgb(0, 255, 200);
+    }
 
-        .TextTeil2:hover {
-            color: rgb(250, 51, 51);
-        }
+    .TextTeil2 {
+        font-size: 25px;
+        font-style: italic;
+        text-decoration: none;
+        color: rgb(14, 44, 179);
+        margin-left: 20px;
+        display: inline-block;
+    }
 
+    .TextTeil2:hover {
+        color: rgb(250, 51, 51);
+    }
+
+    #adBanner {
+        position: sticky;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        height: 90px;
+        width: 728px;
+        pointer-events: none;
+        margin-top: 20px;
+    }
+
+    #adBanner iframe {
+        pointer-events: auto;
+        transform-origin: bottom center;
+    }
+
+    @media (max-width: 767px) {
         #adBanner {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            height: 90px;
-            width: 728px;
-            pointer-events: none;
+            transform: translateX(-50%) scale(0.44);
+            height: 50px;
         }
-
-        #adBanner iframe {
-            pointer-events: auto;
-            transform-origin: bottom center;
-        }
-
-        @media (max-width: 767px) {
-            #adBanner {
-                transform: translateX(-50%) scale(0.44);
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
 
-    <p class="StartText">Willkommen Auf Meiner Website Hier Sehen Sie Alle Twitch Befehle Für Mein Twitch Account</p>
-    <p class="Befehle">Hier Sind Die Preise Und Befehle Aufgelistet die Kann Man Hier Ausführen:</p>
-    <a class="TextTeil2" href="https://www.twitch.tv/plaffysanimation">twitch.tv/plaffysanimation</a>
-    <p class="Befehle">!redeem animation2 = 1100 camembert | !redeem eclipsaliedb = 132 camembert</p>
-    <p class="Befehle">!redeem eclipsalieda = 80 camembert | !redeem starintrodeutsch = 123 camembert</p>
-    <p class="Befehle">!redeem kingschreit = 148 camembert | !redeem staroutro = 148 camembert</p>
-    <p class="Befehle">!redeem musikdestotes = 150 camembert | !redeem camemberten = 48 camembert</p>                                                                                                            
-    <p class="Befehle">!redeem camembertde = 34 camembert | !redeem thefailyoddparents = 340 camembert</p>
-    <p class="Befehle">!redeem house = 45 camembert | !redeem perfekt = 45 camembert</p>
-    <p class="Befehle">!redeem cookie = 30 camembert | !redeem kevin = 70 camembert</p>
-    <p class="Befehle">!redeem kevin = 70 camembert | !redeem foxy = 50 camembert | !redeem giveup = 250 camembert</p>
-    <p class="Befehle">!redeem perfekt2 = 50 camembert | !redeem schach = 206000 camembert</p>
-    <p class="Befehle">!redeem nein2 = 30 camembert | !redeem rickroll = 250 camembert</p>
-    <p class="Befehle">!redeem psst = 45 camembert | !redeem hack = 50 camembert</p>
-    <p class="Befehle">!redeem befehle | !redeem spende | !redeem shop | !redeem server | !redeem devlist | !redeemcamembert</p>
+<p class="StartText">Willkommen Auf Meiner Website Hier Sehen Sie Alle Twitch Befehle Für Mein Twitch Account</p>
+<p class="Befehle">Hier Sind Die Preise Und Befehle Aufgelistet die Kann Man Hier Ausführen:</p>
+<a class="TextTeil2" href="https://www.twitch.tv/plaffysanimation">twitch.tv/plaffysanimation</a>
 
-    <div id="adBanner"></div>
+<p class="Befehle">!redeem animation2 = 1100 camembert | !redeem eclipsaliedb = 132 camembert</p>
+<p class="Befehle">!redeem eclipsalieda = 80 camembert | !redeem starintrodeutsch = 123 camembert</p>
+<p class="Befehle">!redeem kingschreit = 148 camembert | !redeem staroutro = 148 camembert</p>
+<p class="Befehle">!redeem musikdestotes = 150 camembert | !redeem camemberten = 48 camembert</p>
+<p class="Befehle">!redeem camembertde = 34 camembert | !redeem thefailyoddparents = 340 camembert</p>
+<p class="Befehle">!redeem house = 45 camembert | !redeem perfekt = 45 camembert</p>
+<p class="Befehle">!redeem cookie = 30 camembert | !redeem kevin = 70 camembert</p>
+<p class="Befehle">!redeem kevin = 70 camembert | !redeem foxy = 50 camembert | !redeem giveup = 250 camembert</p>
+<p class="Befehle">!redeem perfekt2 = 50 camembert | !redeem schach = 206000 camembert</p>
+<p class="Befehle">!redeem nein2 = 30 camembert | !redeem rickroll = 250 camembert</p>
+<p class="Befehle">!redeem psst = 45 camembert | !redeem hack = 50 camembert</p>
+<p class="Befehle">!redeem befehle | !redeem spende | !redeem shop | !redeem server | !redeem devlist | !redeemcamembert</p>
 
-    <script>
-        function loadAdsterraBanner() {
-            const adContainer = document.getElementById('adBanner');
-            adContainer.innerHTML = '';
+<div id="adBanner"></div>
 
-            const width = window.innerWidth;
-            let bannerWidth = 728;
-            let bannerHeight = 90;
+<script>
+function loadAdsterraBanner() {
+    const adContainer = document.getElementById('adBanner');
+    adContainer.innerHTML = '';
 
-            if (width < 768) {
-                bannerWidth = 320;
-                bannerHeight = 50;
-            }
+    const width = window.innerWidth;
+    let bannerWidth = 728;
+    let bannerHeight = 90;
 
-            const script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.innerHTML = `
-                atOptions = {
-                    'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
-                    'format' : 'iframe',
-                    'height' : ${bannerHeight},
-                    'width' : ${bannerWidth},
-                    'params' : {}
-                };
-            `;
+    if (width < 768) {
+        bannerWidth = 320;
+        bannerHeight = 50;
+    }
 
-            const invoke = document.createElement('script');
-            invoke.type = 'text/javascript';
-            invoke.src = '//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js';
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.innerHTML = `
+        atOptions = {
+            'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
+            'format' : 'iframe',
+            'height' : ${bannerHeight},
+            'width' : ${bannerWidth},
+            'params' : {}
+        };
+    `;
+    const invoke = document.createElement('script');
+    invoke.type = 'text/javascript';
+    invoke.src = '//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js';
 
-            adContainer.appendChild(script);
-            adContainer.appendChild(invoke);
-        }
+    adContainer.appendChild(script);
+    adContainer.appendChild(invoke);
+}
 
-        window.addEventListener('load', loadAdsterraBanner);
-        window.addEventListener('resize', loadAdsterraBanner);
-    </script>
+window.addEventListener('load', loadAdsterraBanner);
+window.addEventListener('resize', loadAdsterraBanner);
+</script>
 
 </body>
 </html>
