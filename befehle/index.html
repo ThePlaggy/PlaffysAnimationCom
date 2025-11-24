@@ -43,7 +43,7 @@ html, body {
     color: rgb(250, 51, 51);
 }
 
-#adBannerTop, #adBannerBottom {
+#adBannerTop {
     width: 728px;
     height: 90px;
     pointer-events: none;
@@ -51,20 +51,12 @@ html, body {
     display: block;
 }
 
-#adBannerTop iframe, #adBannerBottom iframe {
+#adBannerTop iframe {
     pointer-events: auto;
 }
 
-#adBannerBottom {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-}
-
 @media (max-width: 767px) {
-    #adBannerTop, #adBannerBottom {
+    #adBannerTop {
         width: 320px;
         height: 50px;
     }
@@ -92,11 +84,9 @@ html, body {
 <p class="Befehle">!redeem psst = 45 camembert | !redeem hack = 50 camembert</p>
 <p class="Befehle">!redeem befehle | !redeem spende | !redeem shop | !redeem server | !redeem devlist | !redeemcamembert</p>
 
-<div id="adBannerBottom"></div>
-
 <script>
-function loadAdsterraBanner(adContainerId) {
-    const adContainer = document.getElementById(adContainerId);
+function loadAdsterraBanner() {
+    const adContainer = document.getElementById('adBannerTop');
     adContainer.innerHTML = '';
 
     const width = window.innerWidth;
@@ -128,15 +118,8 @@ function loadAdsterraBanner(adContainerId) {
     adContainer.appendChild(invoke);
 }
 
-window.addEventListener('load', () => {
-    loadAdsterraBanner('adBannerTop');
-    loadAdsterraBanner('adBannerBottom');
-});
-
-window.addEventListener('resize', () => {
-    loadAdsterraBanner('adBannerTop');
-    loadAdsterraBanner('adBannerBottom');
-});
+window.addEventListener('load', loadAdsterraBanner);
+window.addEventListener('resize', loadAdsterraBanner);
 </script>
 
 </body>
