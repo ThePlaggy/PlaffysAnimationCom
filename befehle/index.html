@@ -1,8 +1,9 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="de">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitch Befehle</title>
-
     <style>
         .StartText {
             position: relative;
@@ -12,22 +13,18 @@
             left: 350px;
         }
 
-        .Befehle
-        {
+        .Befehle {
             position: relative;
             font-size: 25px;
             font-style: italic;
             color: rgb(179, 77, 37);
         }
-        .Befehle:hover
-        {
-            position: relative;
-            font-size: 25px;
-            font-style: italic;
+
+        .Befehle:hover {
             color: rgb(0, 255, 200);
         }
-        .TextTeil2 
-        {
+
+        .TextTeil2 {
             position: relative;
             font-size: 25px;
             font-style: italic;
@@ -36,79 +33,36 @@
             text-decoration: none;
             color: rgb(14, 44, 179);
         }
-        .TextTeil2:hover
-        {
-            position: relative;
-            font-size: 25px;
-            font-style: italic;
-            top: -53px;
-            left: 780px;
+
+        .TextTeil2:hover {
             color: rgb(250, 51, 51);
         }
-<div id="adBanner"></div>
 
-<style>
-#adBanner {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    height: 90px;
-    width: 728px;
-    pointer-events: none;
-}
-#adBanner iframe {
-    pointer-events: auto;
-    transform-origin: bottom center;
-}
-@media (max-width: 767px) {
-    #adBanner {
-        transform: translateX(-50%) scale(0.44);
-    }
-}
-</style>
+        #adBanner {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            height: 90px;
+            width: 728px;
+            pointer-events: none;
+        }
 
-<script>
-function loadAdsterraBanner() {
-    const adContainer = document.getElementById('adBanner');
-    adContainer.innerHTML = '';
+        #adBanner iframe {
+            pointer-events: auto;
+            transform-origin: bottom center;
+        }
 
-    const width = window.innerWidth;
-    let bannerWidth = 728;
-    let bannerHeight = 90;
-
-    if (width < 768) {
-        bannerWidth = 320;
-        bannerHeight = 50;
-    }
-
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.innerHTML = `
-        atOptions = {
-            'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
-            'format' : 'iframe',
-            'height' : ${bannerHeight},
-            'width' : ${bannerWidth},
-            'params' : {}
-        };
-    `;
-    const invoke = document.createElement('script');
-    invoke.type = 'text/javascript';
-    invoke.src = '//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js';
-
-    adContainer.appendChild(script);
-    adContainer.appendChild(invoke);
-}
-
-window.addEventListener('load', loadAdsterraBanner);
-window.addEventListener('resize', loadAdsterraBanner);
-</script>
-
+        @media (max-width: 767px) {
+            #adBanner {
+                transform: translateX(-50%) scale(0.44);
+            }
+        }
     </style>
 </head>
 <body>
+
     <p class="StartText">Willkommen Auf Meiner Website Hier Sehen Sie Alle Twitch Befehle Für Mein Twitch Account</p>
     <p class="Befehle">Hier Sind Die Preise Und Befehle Aufgelistet die Kann Man Hier Ausführen:</p>
     <a class="TextTeil2" href="https://www.twitch.tv/plaffysanimation">twitch.tv/plaffysanimation</a>
@@ -125,5 +79,45 @@ window.addEventListener('resize', loadAdsterraBanner);
     <p class="Befehle">!redeem psst = 45 camembert | !redeem hack = 50 camembert</p>
     <p class="Befehle">!redeem befehle | !redeem spende | !redeem shop | !redeem server | !redeem devlist | !redeemcamembert</p>
 
+    <div id="adBanner"></div>
 
-</body></html>
+    <script>
+        function loadAdsterraBanner() {
+            const adContainer = document.getElementById('adBanner');
+            adContainer.innerHTML = '';
+
+            const width = window.innerWidth;
+            let bannerWidth = 728;
+            let bannerHeight = 90;
+
+            if (width < 768) {
+                bannerWidth = 320;
+                bannerHeight = 50;
+            }
+
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.innerHTML = `
+                atOptions = {
+                    'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
+                    'format' : 'iframe',
+                    'height' : ${bannerHeight},
+                    'width' : ${bannerWidth},
+                    'params' : {}
+                };
+            `;
+
+            const invoke = document.createElement('script');
+            invoke.type = 'text/javascript';
+            invoke.src = '//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js';
+
+            adContainer.appendChild(script);
+            adContainer.appendChild(invoke);
+        }
+
+        window.addEventListener('load', loadAdsterraBanner);
+        window.addEventListener('resize', loadAdsterraBanner);
+    </script>
+
+</body>
+</html>
