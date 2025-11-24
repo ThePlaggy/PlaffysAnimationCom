@@ -27,7 +27,8 @@ body {
     cursor: pointer;
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
     z-index: 5; /* Über Werbung */
 }
 
@@ -64,16 +65,26 @@ body {
     z-index: 5;
 }
 
-/* Ad-Container immer unten */
+/* Banner immer unten, zentriert */
 #ad-container {
     position: fixed;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 728px; /* Desktop-Leaderboard */
+    max-width: 728px; /* Desktop Leaderboard */
+    height: 90px;
     text-align: center;
     z-index: 1; /* Unter Spiel */
+    pointer-events: auto; /* Banner klickbar, Spiel bleibt oben klickbar */
+}
+
+/* Auf kleinen Bildschirmen kleiner Banner */
+@media (max-width: 480px) {
+    #ad-container {
+        max-width: 320px;
+        height: 50px;
+    }
 }
 </style>
 </head>
@@ -124,17 +135,6 @@ setInterval(() => {
     hue = (hue + 1) % 360;
     document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
 }, 20);
-
-// Spiel zentrieren und unter Ad verschieben, falls nötig
-function adjustGamePosition() {
-    const ad = document.getElementById('ad-container');
-    const img = document.getElementById('plaImage');
-    const adHeight = ad.offsetHeight || 0;
-    img.style.top = `calc(50% - ${adHeight/2}px)`;
-}
-
-window.addEventListener('load', adjustGamePosition);
-window.addEventListener('resize', adjustGamePosition);
 
 function playGifAudio() {
     if (animating) return;
