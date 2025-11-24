@@ -1,57 +1,53 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlaffyClicker</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: url('plaffy-clicker/GameData/Hintergrund.png') no-repeat center center fixed;
-            background-size: cover;
-        }
-
-        #plaImage {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 200px;
-            cursor: pointer;
-        }
-
-        #score {
-            position: absolute;
-            top: 35%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 50px;
-            font-weight: bold;
-        }
-
-        #highscore {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 20px;
-            color: #0a3d00;
-            font-weight: bold;
-        }
-
-        #timer {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            color: black;
-            font-weight: bold;
-        }
-
-        #adBanner {
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlaffyClicker</title>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: url('plaffy-clicker/GameData/Hintergrund.png') no-repeat center center fixed;
+    background-size: cover;
+    overflow-x: hidden;
+}
+#plaImage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 200px;
+    cursor: pointer;
+}
+#score {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 50px;
+    font-weight: bold;
+}
+#highscore {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    color: #0a3d00;
+    font-weight: bold;
+}
+#timer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: black;
+    font-weight: bold;
+}
+#adBanner {
     position: fixed;
-    bottom: 0;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
@@ -59,121 +55,120 @@
     width: 728px;
     pointer-events: none;
 }
-
 #adBanner iframe {
     pointer-events: auto;
-    transform-origin: bottom center;
+    transform-origin: top center;
 }
-
 @media (max-width: 767px) {
     #adBanner {
         transform: translateX(-50%) scale(0.44);
     }
 }
-
-    </style>
+</style>
 </head>
 <body>
 
-    <div id="score">0</div>
-    <div id="highscore">Highscore: 0</div>
-    <div id="timer">00:00:00</div>
-    <img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" onclick="playGifAudio()" alt="Bild">
-    <div id="adBanner"></div>
+<div id="score">0</div>
+<div id="highscore">Highscore: 0</div>
+<div id="timer">00:00:00</div>
+<img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" onclick="playGifAudio()" alt="Bild">
+<div id="adBanner"></div>
 
-    <script>
-        let animating = false;
-        let score = 0;
-        let hue = 0;
-        let startTime = Date.now();
+<script type="text/javascript" src="//fugitivedepart.com/38/33/a2/3833a2197dc4ab25241e8e2a952903c1.js"></script>
 
-        let highscore = localStorage.getItem('plaHighscore') || 0;
+<script>
+let animating = false;
+let score = 0;
+let hue = 0;
+let startTime = Date.now();
+
+let highscore = localStorage.getItem('plaHighscore') || 0;
+document.getElementById('highscore').textContent = "Highscore: " + highscore;
+
+setInterval(() => {
+    let elapsed = Date.now() - startTime;
+    let h = Math.floor(elapsed / 3600000);
+    let m = Math.floor((elapsed % 3600000) / 60000);
+    let s = Math.floor((elapsed % 60000) / 1000);
+    document.getElementById('timer').textContent =
+        `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}, 1000);
+
+setInterval(() => {
+    hue = (hue + 1) % 360;
+    document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
+}, 20);
+
+function playGifAudio() {
+    if (animating) return;
+    animating = true;
+
+    const img = document.getElementById('plaImage');
+    const original = 'plaffy-clicker/GameData/PlaffyIcon.png';
+    const gif = 'plaffy-clicker/GameData/PlaffyIcon.gif';
+
+    const sounds = [
+        'plaffy-clicker/GameData/Plaffy1.wav',
+        'plaffy-clicker/GameData/Plaffy2.wav',
+        'plaffy-clicker/GameData/Plaffy3.wav',
+        'plaffy-clicker/GameData/Plaffy4.wav'
+    ];
+    const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+
+    img.src = gif;
+    const audio = new Audio(randomSound);
+    audio.play();
+    audio.onended = () => {
+        img.src = original;
+        animating = false;
+    };
+
+    score++;
+    document.getElementById('score').textContent = score;
+
+    if (score > highscore) {
+        highscore = score;
+        localStorage.setItem('plaHighscore', highscore);
         document.getElementById('highscore').textContent = "Highscore: " + highscore;
+    }
+}
 
-        setInterval(() => {
-            let elapsed = Date.now() - startTime;
-            let h = Math.floor(elapsed / 3600000);
-            let m = Math.floor((elapsed % 3600000) / 60000);
-            let s = Math.floor((elapsed % 60000) / 1000);
-            document.getElementById('timer').textContent =
-                `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        }, 1000);
+function loadAdsterraBanner() {
+    const adContainer = document.getElementById('adBanner');
+    adContainer.innerHTML = '';
 
-        setInterval(() => {
-            hue = (hue + 1) % 360;
-            document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
-        }, 20);
+    const width = window.innerWidth;
+    let bannerWidth = 728;
+    let bannerHeight = 90;
 
-        function playGifAudio() {
-            if (animating) return;
-            animating = true;
+    if (width < 768) {
+        bannerWidth = 320;
+        bannerHeight = 50;
+    }
 
-            const img = document.getElementById('plaImage');
-            const original = 'plaffy-clicker/GameData/PlaffyIcon.png';
-            const gif = 'plaffy-clicker/GameData/PlaffyIcon.gif';
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.innerHTML = `
+        atOptions = {
+            'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
+            'format' : 'iframe',
+            'height' : ${bannerHeight},
+            'width' : ${bannerWidth},
+            'params' : {}
+        };
+    `;
 
-            const sounds = [
-                'plaffy-clicker/GameData/Plaffy1.wav',
-                'plaffy-clicker/GameData/Plaffy2.wav',
-                'plaffy-clicker/GameData/Plaffy3.wav',
-                'plaffy-clicker/GameData/Plaffy4.wav'
-            ];
-            const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+    const invoke = document.createElement('script');
+    invoke.type = 'text/javascript';
+    invoke.src = '//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js';
 
-            img.src = gif;
-            const audio = new Audio(randomSound);
-            audio.play();
-            audio.onended = () => {
-                img.src = original;
-                animating = false;
-            };
+    adContainer.appendChild(script);
+    adContainer.appendChild(invoke);
+}
 
-            score++;
-            document.getElementById('score').textContent = score;
-
-            if (score > highscore) {
-                highscore = score;
-                localStorage.setItem('plaHighscore', highscore);
-                document.getElementById('highscore').textContent = "Highscore: " + highscore;
-            }
-        }
-
-        function loadAdsterraBanner() {
-            const adContainer = document.getElementById('adBanner');
-            adContainer.innerHTML = '';
-
-            const width = window.innerWidth;
-            let bannerWidth = 728;
-            let bannerHeight = 90;
-
-            if (width < 768) {
-                bannerWidth = 320;
-                bannerHeight = 50;
-            }
-
-            const script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.innerHTML = `
-                atOptions = {
-                    'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
-                    'format' : 'iframe',
-                    'height' : ${bannerHeight},
-                    'width' : ${bannerWidth},
-                    'params' : {}
-                };
-            `;
-
-            const invoke = document.createElement('script');
-            invoke.type = 'text/javascript';
-            invoke.src = '//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js';
-
-            adContainer.appendChild(script);
-            adContainer.appendChild(invoke);
-        }
-
-        window.addEventListener('load', loadAdsterraBanner);
-        window.addEventListener('resize', loadAdsterraBanner);
-    </script>
+window.addEventListener('load', loadAdsterraBanner);
+window.addEventListener('resize', loadAdsterraBanner);
+</script>
 
 </body>
 </html>
