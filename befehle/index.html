@@ -74,22 +74,26 @@ body {
 <p class="Befehle">!redeem musikdestotes = 150 camembert | !redeem camemberten = 48 camembert</p>
 <p class="Befehle">!redeem camembertde = 34 camembert | !redeem thefailyoddparents = 340 camembert</p>
 <p class="Befehle">!redeem house = 45 camembert | !redeem perfekt = 45 camembert</p>
-<p class="Befehle">!redeem cookie = 30 camembert | !redeem kevin = 70 camembert</p>
 <p class="Befehle">!redeem kevin = 70 camembert | !redeem foxy = 50 camembert | !redeem giveup = 250 camembert</p>
 <p class="Befehle">!redeem perfekt2 = 50 camembert | !redeem schach = 206000 camembert</p>
 <p class="Befehle">!redeem nein2 = 30 camembert | !redeem rickroll = 250 camembert</p>
 <p class="Befehle">!redeem psst = 45 camembert | !redeem hack = 50 camembert</p>
 <p class="Befehle">!redeem befehle | !redeem spende | !redeem shop | !redeem server | !redeem devlist | !redeemcamembert</p>
 
-<script type="text/javascript" src="//fugitivedepart.com/38/33/a2/3833a2197dc4ab25241e8e2a952903c1.js"></script>
-
 <script>
 function loadAdsterraBanner() {
     const adContainer = document.getElementById('adBanner');
     adContainer.innerHTML = '';
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.innerHTML = `
+    const iframe = document.createElement("iframe");
+    iframe.sandbox = "allow-scripts allow-same-origin";
+    iframe.style.border = "0";
+    iframe.style.width = "728px";
+    iframe.style.height = "90px";
+    adContainer.appendChild(iframe);
+    const doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(`
+        <script>
         atOptions = {
             'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
             'format' : 'iframe',
@@ -97,12 +101,10 @@ function loadAdsterraBanner() {
             'width' : 728,
             'params' : {}
         };
-    `;
-    const invoke = document.createElement('script');
-    invoke.type = 'text/javascript';
-    invoke.src = '//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js';
-    adContainer.appendChild(script);
-    adContainer.appendChild(invoke);
+        <\/script>
+        <script src="//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js"><\/script>
+    `);
+    doc.close();
 }
 window.addEventListener('load', loadAdsterraBanner);
 window.addEventListener('resize', loadAdsterraBanner);
