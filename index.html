@@ -45,20 +45,16 @@ body {
     color: black;
     font-weight: bold;
 }
-#adBanner {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    height: 90px;
-    width: 728px;
-    pointer-events: none;
-}
 #adBanner iframe {
     pointer-events: auto;
     transform-origin: top center;
+    overflow: hidden;
+    scrollbar-width: none;
 }
+#adBanner iframe::-webkit-scrollbar {
+    display: none;
+}
+
 @media (max-width: 767px) {
     #adBanner {
         transform: translateX(-50%) scale(0.44);
