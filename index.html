@@ -45,6 +45,16 @@ body {
     color: black;
     font-weight: bold;
 }
+#adBanner {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    height: 90px;
+    width: 728px;
+    pointer-events: none;
+}
 #adBanner iframe {
     pointer-events: auto;
     transform-origin: top center;
@@ -54,7 +64,6 @@ body {
 #adBanner iframe::-webkit-scrollbar {
     display: none;
 }
-
 @media (max-width: 767px) {
     #adBanner {
         transform: translateX(-50%) scale(0.44);
@@ -75,6 +84,7 @@ let animating = false;
 let score = 0;
 let hue = 0;
 let startTime = Date.now();
+
 let highscore = localStorage.getItem('plaHighscore') || 0;
 document.getElementById('highscore').textContent = "Highscore: " + highscore;
 
@@ -118,6 +128,7 @@ function playGifAudio() {
 
     score++;
     document.getElementById('score').textContent = score;
+
     if (score > highscore) {
         highscore = score;
         localStorage.setItem('plaHighscore', highscore);
@@ -128,22 +139,12 @@ function playGifAudio() {
 function loadAdsterraBanner() {
     const adContainer = document.getElementById('adBanner');
     adContainer.innerHTML = '';
-
-    const width = window.innerWidth;
-    let bannerWidth = 728;
-    let bannerHeight = 90;
-    if (width < 768) {
-        bannerWidth = 320;
-        bannerHeight = 50;
-    }
-
     const iframe = document.createElement("iframe");
     iframe.sandbox = "allow-scripts allow-same-origin";
     iframe.style.border = "0";
-    iframe.style.width = bannerWidth + "px";
-    iframe.style.height = bannerHeight + "px";
+    iframe.style.width = "728px";
+    iframe.style.height = "90px";
     adContainer.appendChild(iframe);
-
     const doc = iframe.contentWindow.document;
     doc.open();
     doc.write(`
@@ -151,8 +152,8 @@ function loadAdsterraBanner() {
         atOptions = {
             'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
             'format' : 'iframe',
-            'height' : ${bannerHeight},
-            'width' : ${bannerWidth},
+            'height' : 90,
+            'width' : 728,
             'params' : {}
         };
         <\/script>
