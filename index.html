@@ -45,19 +45,30 @@ body {
     color: black;
     font-weight: bold;
 }
+
+/* Ad komplett fix */
+#adBanner {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    height: 90px;
+    width: 728px;
+    overflow: hidden;
+    pointer-events: none;
+}
 #adBanner iframe {
+    border: 0;
+    width: 728px;
+    height: 90px;
+    overflow: hidden;
     pointer-events: auto;
-    transform-origin: top center;
-    overflow: hidden;       /* WICHTIG */
-    scrollbar-width: none;  /* Firefox */
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: none;
 }
 #adBanner iframe::-webkit-scrollbar {
-    display: none;          /* Chrome/Safari */
-}
-
-/* Für iOS/Android zusätzlich */
-#adBanner iframe {
-    -webkit-overflow-scrolling: none;
+    display: none;
 }
 
 @media (max-width: 767px) {
@@ -137,9 +148,6 @@ function loadAdsterraBanner() {
     adContainer.innerHTML = '';
     const iframe = document.createElement("iframe");
     iframe.sandbox = "allow-scripts allow-same-origin";
-    iframe.style.border = "0";
-    iframe.style.width = "728px";
-    iframe.style.height = "90px";
     adContainer.appendChild(iframe);
     const doc = iframe.contentWindow.document;
     doc.open();

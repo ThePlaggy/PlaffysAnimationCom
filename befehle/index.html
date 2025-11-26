@@ -11,6 +11,7 @@ html, body {
     overflow-x: hidden;
     font-family: sans-serif;
 }
+
 .StartText {
     font-size: 30px;
     font-weight: bold;
@@ -37,34 +38,46 @@ html, body {
 .TextTeil2:hover {
     color: rgb(250, 51, 51);
 }
+
+/* Banner-Fix vollständig */
+#adBanner {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 728px;
+    height: 90px;
+    overflow: hidden;
+    pointer-events: none;
+}
 #adBanner iframe {
+    border: 0;
+    width: 728px;
+    height: 90px;
+    overflow: hidden;
     pointer-events: auto;
-    transform-origin: top center;
-    overflow: hidden;       /* WICHTIG */
-    scrollbar-width: none;  /* Firefox */
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: none;
 }
 #adBanner iframe::-webkit-scrollbar {
-    display: none;          /* Chrome/Safari */
-}
-
-/* Für iOS/Android zusätzlich */
-#adBanner iframe {
-    -webkit-overflow-scrolling: none;
+    display: none;
 }
 
 @media (max-width: 767px) {
     #adBanner {
         transform: translateX(-50%) scale(0.44);
-        width: 728px;
-        height: 90px;
     }
 }
+
+/* Abstand damit Inhalt nicht überdeckt wird */
 body {
     padding-top: 100px;
 }
 </style>
 </head>
 <body>
+
 <div id="adBanner"></div>
 
 <p class="StartText">Willkommen Auf Meiner Website Hier Sehen Sie Alle Twitch Befehle Für Mein Twitch Account</p>
