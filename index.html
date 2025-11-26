@@ -45,25 +45,21 @@ body {
     color: black;
     font-weight: bold;
 }
-#adBanner {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    height: 90px;
-    width: 728px;
-    pointer-events: none;
-}
 #adBanner iframe {
     pointer-events: auto;
     transform-origin: top center;
-    overflow: hidden;
-    scrollbar-width: none;
+    overflow: hidden;       /* WICHTIG */
+    scrollbar-width: none;  /* Firefox */
 }
 #adBanner iframe::-webkit-scrollbar {
-    display: none;
+    display: none;          /* Chrome/Safari */
 }
+
+/* Für iOS/Android zusätzlich */
+#adBanner iframe {
+    -webkit-overflow-scrolling: none;
+}
+
 @media (max-width: 767px) {
     #adBanner {
         transform: translateX(-50%) scale(0.44);
