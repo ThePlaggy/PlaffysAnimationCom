@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlaffyClicker</title>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: url('plaffy-clicker/GameData/Hintergrund.png') no-repeat center center fixed;
+    background-size: cover;
+    overflow-x: hidden;
+}
+#plaImage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 200px;
+    cursor: pointer;
+}
+#score {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 50px;
+    font-weight: bold;
+}
+#highscore {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    color: #0a3d00;
+    font-weight: bold;
+}
+#timer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: black;
+    font-weight: bold;
+}
+
+/* Ad komplett fix */
+#adBanner {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    height: 90px;
+    width: 728px;
+    overflow: hidden;
+    pointer-events: none;
+}
+#adBanner iframe {
+    border: 0;
+    width: 728px;
+    height: 90px;
+    overflow: hidden;
+    pointer-events: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: none;
+}
+#adBanner iframe::-webkit-scrollbar {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    #adBanner {
+        transform: translateX(-50%) scale(0.44);
+    }
+}
+</style>
+</head>
+<body>
+
+<div id="score">0</div>
+<div id="highscore">Highscore: 0</div>
+<div id="timer">00:00:00</div>
+<img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" onclick="playGifAudio()" alt="Bild">
+<div id="adBanner"></div>
+
+<script>
+let animating = false;
+let score = 0;
+let hue = 0;
+let startTime = Date.now();
+
+let highscore = localStorage.getItem('plaHighscore') || 0;
+document.getElementById('highscore').textContent = "Highscore: " + highscore;
+
+setInterval(() => {
+    let elapsed = Date.now() - startTime;
+    let h = Math.floor(elapsed / 3600000);
+    let m = Math.floor((elapsed % 3600000) / 60000);
+    let s = Math.floor((elapsed % 60000) / 1000);
+    document.getElementById('timer').textContent =
+        `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}, 1000);
+
+setInterval(() => {
+    hue = (hue + 1) % 360;
+    document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
+}, 20);
+
+function playGifAudio() {
+    if (animating) return;
+    animating = true;
+
+    const img = document.getElementById('plaImage');
+    const original = 'plaffy-clicker/GameData/PlaffyIcon.png';
+    const gif = 'plaffy-clicker/GameData/PlaffyIcon.gif';
+
+    const sounds = [
+        'plaffy-clicker/GameData/Plaffy1.wav',
+        'plaffy-clicker/GameData/Plaffy2.wav',
+        'plaffy-clicker/GameData/Plaffy3.wav',
+        'plaffy-clicker/GameData/Plaffy4.wav'
+    ];
+    const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+
+    img.src = gif;
+    const audio = new Audio(randomSound);
+    audio.play();
+    audio.onended = () => {
+        img.src = original;
+        animating = false;
+    };
+
+    score++;
+    document.getElementById('score').textContent = score;
+
+    if (score > highscore) {
+        highscore = score;
+        localStorage.setItem('plaHighscore', highscore);
+        document.getElementById('highscore').textContent = "Highscore: " + highscore;
+    }
+}
+
+function loadAdsterraBanner() {
+    const adContainer = document.getElementById('adBanner');
+    adContainer.innerHTML = '';
+    const iframe = document.createElement("iframe");
+    iframe.sandbox = "allow-scripts allow-same-origin";
+    adContainer.appendChild(iframe);
+    const doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(`
+        <script>
+        atOptions = {
+            'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
+            'format' : 'iframe',
+            'height' : 90,
+            'width' : 728,
+            'params' : {}
+        };
+        <\/script>
+        <script src="//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js"><\/script>
+    `);
+    doc.close();
+}
+
+window.addEventListener('load', loadAdsterraBanner);
+window.addEventListener('resize', loadAdsterraBanner);
+</script>
+
+</body>
+</html>

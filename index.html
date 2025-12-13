@@ -1,174 +1,133 @@
 <!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PlaffyClicker</title>
-<style>
-body {
-    margin: 0;
-    padding: 0;
-    background: url('plaffy-clicker/GameData/Hintergrund.png') no-repeat center center fixed;
-    background-size: cover;
-    overflow-x: hidden;
-}
-#plaImage {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: 200px;
-    cursor: pointer;
-}
-#score {
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 50px;
-    font-weight: bold;
-}
-#highscore {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 20px;
-    color: #0a3d00;
-    font-weight: bold;
-}
-#timer {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    color: black;
-    font-weight: bold;
-}
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity Web Player | PlaffyDemo</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">PlaffyDemo</div>
+      </div>
+    </div>
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
 
-/* Ad komplett fix */
-#adBanner {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    height: 90px;
-    width: 728px;
-    overflow: hidden;
-    pointer-events: none;
-}
-#adBanner iframe {
-    border: 0;
-    width: 728px;
-    height: 90px;
-    overflow: hidden;
-    pointer-events: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: none;
-}
-#adBanner iframe::-webkit-scrollbar {
-    display: none;
-}
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#unity-warning");
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
 
-@media (max-width: 767px) {
-    #adBanner {
-        transform: translateX(-50%) scale(0.44);
-    }
-}
-</style>
-</head>
-<body>
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/Render.loader.js";
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/Render.data.br",
+        frameworkUrl: buildUrl + "/Render.framework.js.br",
+        codeUrl: buildUrl + "/Render.wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "PlaffyDemo",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
+        // errorHandler: function(err, url, line) {
+        //    alert("error " + err + " occurred at line " + line);
+        //    // Return 'true' if you handled this error and don't want Unity
+        //    // to process it further, 'false' otherwise.
+        //    return true;
+        // },
+      };
 
-<div id="score">0</div>
-<div id="highscore">Highscore: 0</div>
-<div id="timer">00:00:00</div>
-<img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" onclick="playGifAudio()" alt="Bild">
-<div id="adBanner"></div>
+      // By default, Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
 
-<script>
-let animating = false;
-let score = 0;
-let hue = 0;
-let startTime = Date.now();
+      // If you would like all file writes inside Unity Application.persistentDataPath
+      // directory to automatically persist so that the contents are remembered when
+      // the user revisits the site the next time, uncomment the following line:
+      // config.autoSyncPersistentDataPath = true;
+      // This autosyncing is currently not the default behavior to avoid regressing
+      // existing user projects that might rely on the earlier manual
+      // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
+      // expected to change.
 
-let highscore = localStorage.getItem('plaHighscore') || 0;
-document.getElementById('highscore').textContent = "Highscore: " + highscore;
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
 
-setInterval(() => {
-    let elapsed = Date.now() - startTime;
-    let h = Math.floor(elapsed / 3600000);
-    let m = Math.floor((elapsed % 3600000) / 60000);
-    let s = Math.floor((elapsed % 60000) / 1000);
-    document.getElementById('timer').textContent =
-        `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-}, 1000);
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        document.querySelector("#unity-container").className = "unity-mobile";
+        canvas.className = "unity-mobile";
 
-setInterval(() => {
-    hue = (hue + 1) % 360;
-    document.getElementById('score').style.color = `hsl(${hue},100%,50%)`;
-}, 20);
+        // To lower canvas resolution on mobile devices to gain some
+        // performance, uncomment the following line:
+        // config.devicePixelRatio = 1;
 
-function playGifAudio() {
-    if (animating) return;
-    animating = true;
 
-    const img = document.getElementById('plaImage');
-    const original = 'plaffy-clicker/GameData/PlaffyIcon.png';
-    const gif = 'plaffy-clicker/GameData/PlaffyIcon.gif';
+      } else {
+        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
+      }
 
-    const sounds = [
-        'plaffy-clicker/GameData/Plaffy1.wav',
-        'plaffy-clicker/GameData/Plaffy2.wav',
-        'plaffy-clicker/GameData/Plaffy3.wav',
-        'plaffy-clicker/GameData/Plaffy4.wav'
-    ];
-    const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+      document.querySelector("#unity-loading-bar").style.display = "block";
 
-    img.src = gif;
-    const audio = new Audio(randomSound);
-    audio.play();
-    audio.onended = () => {
-        img.src = original;
-        animating = false;
-    };
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+              }).then((unityInstance) => {
+                document.querySelector("#unity-loading-bar").style.display = "none";
+                document.querySelector("#unity-fullscreen-button").onclick = () => {
+                  unityInstance.SetFullscreen(1);
+                };
 
-    score++;
-    document.getElementById('score').textContent = score;
+              }).catch((message) => {
+                alert(message);
+              });
+            };
 
-    if (score > highscore) {
-        highscore = score;
-        localStorage.setItem('plaHighscore', highscore);
-        document.getElementById('highscore').textContent = "Highscore: " + highscore;
-    }
-}
+      document.body.appendChild(script);
 
-function loadAdsterraBanner() {
-    const adContainer = document.getElementById('adBanner');
-    adContainer.innerHTML = '';
-    const iframe = document.createElement("iframe");
-    iframe.sandbox = "allow-scripts allow-same-origin";
-    adContainer.appendChild(iframe);
-    const doc = iframe.contentWindow.document;
-    doc.open();
-    doc.write(`
-        <script>
-        atOptions = {
-            'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
-            'format' : 'iframe',
-            'height' : 90,
-            'width' : 728,
-            'params' : {}
-        };
-        <\/script>
-        <script src="//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js"><\/script>
-    `);
-    doc.close();
-}
-
-window.addEventListener('load', loadAdsterraBanner);
-window.addEventListener('resize', loadAdsterraBanner);
-</script>
-
-</body>
+    </script>
+  </body>
 </html>
