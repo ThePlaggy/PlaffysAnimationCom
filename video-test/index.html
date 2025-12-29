@@ -2,16 +2,26 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video</title>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+<title>Video Fullscreen</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+  }
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
 </head>
 <body>
 
-<iframe
-  src="https://drive.google.com/file/d/1ciOALxLlU-Bgt_WInuN6iH_hXCGYk-85/preview"
-  style="width:100%; max-width:800px; height:450px;"
-  allow="autoplay">
-</iframe>
+<iframe src="https://drive.google.com/file/d/1ciOALxLlU-Bgt_WInuN6iH_hXCGYk-85/preview" allow="autoplay"></iframe>
 
 </body>
 </html>
