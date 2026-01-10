@@ -45,37 +45,6 @@ body {
     color: black;
     font-weight: bold;
 }
-
-/* Ad komplett fix */
-#adBanner {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    height: 90px;
-    width: 728px;
-    overflow: hidden;
-    pointer-events: none;
-}
-#adBanner iframe {
-    border: 0;
-    width: 728px;
-    height: 90px;
-    overflow: hidden;
-    pointer-events: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: none;
-}
-#adBanner iframe::-webkit-scrollbar {
-    display: none;
-}
-
-@media (max-width: 767px) {
-    #adBanner {
-        transform: translateX(-50%) scale(0.44);
-    }
-}
 </style>
 </head>
 <body>
@@ -84,7 +53,6 @@ body {
 <div id="highscore">Highscore: 0</div>
 <div id="timer">00:00:00</div>
 <img id="plaImage" src="plaffy-clicker/GameData/PlaffyIcon.png" onclick="playGifAudio()" alt="Bild">
-<div id="adBanner"></div>
 
 <script>
 let animating = false;
@@ -142,32 +110,6 @@ function playGifAudio() {
         document.getElementById('highscore').textContent = "Highscore: " + highscore;
     }
 }
-
-function loadAdsterraBanner() {
-    const adContainer = document.getElementById('adBanner');
-    adContainer.innerHTML = '';
-    const iframe = document.createElement("iframe");
-    iframe.sandbox = "allow-scripts allow-same-origin";
-    adContainer.appendChild(iframe);
-    const doc = iframe.contentWindow.document;
-    doc.open();
-    doc.write(`
-        <script>
-        atOptions = {
-            'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
-            'format' : 'iframe',
-            'height' : 90,
-            'width' : 728,
-            'params' : {}
-        };
-        <\/script>
-        <script src="//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js"><\/script>
-    `);
-    doc.close();
-}
-
-window.addEventListener('load', loadAdsterraBanner);
-window.addEventListener('resize', loadAdsterraBanner);
 </script>
 
 </body>

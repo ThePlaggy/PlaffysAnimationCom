@@ -38,47 +38,9 @@ html, body {
 .TextTeil2:hover {
     color: rgb(250, 51, 51);
 }
-
-/* Banner-Fix vollständig */
-#adBanner {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    width: 728px;
-    height: 90px;
-    overflow: hidden;
-    pointer-events: none;
-}
-#adBanner iframe {
-    border: 0;
-    width: 728px;
-    height: 90px;
-    overflow: hidden;
-    pointer-events: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: none;
-}
-#adBanner iframe::-webkit-scrollbar {
-    display: none;
-}
-
-@media (max-width: 767px) {
-    #adBanner {
-        transform: translateX(-50%) scale(0.44);
-    }
-}
-
-/* Abstand damit Inhalt nicht überdeckt wird */
-body {
-    padding-top: 100px;
-}
 </style>
 </head>
 <body>
-
-<div id="adBanner"></div>
 
 <p class="StartText">Willkommen Auf Meiner Website Hier Sehen Sie Alle Twitch Befehle Für Mein Twitch Account</p>
 <p class="Befehle">Hier Sind Die Preise Und Befehle Aufgelistet die Kann Man Hier Ausführen:</p>
@@ -94,36 +56,6 @@ body {
 <p class="Befehle">!redeem nein2 = 30 camembert | !redeem rickroll = 250 camembert</p>
 <p class="Befehle">!redeem psst = 45 camembert | !redeem hack = 50 camembert</p>
 <p class="Befehle">!redeem befehle | !redeem spende | !redeem shop | !redeem server | !redeem devlist | !redeemcamembert</p>
-
-<script>
-function loadAdsterraBanner() {
-    const adContainer = document.getElementById('adBanner');
-    adContainer.innerHTML = '';
-    const iframe = document.createElement("iframe");
-    iframe.sandbox = "allow-scripts allow-same-origin";
-    iframe.style.border = "0";
-    iframe.style.width = "728px";
-    iframe.style.height = "90px";
-    adContainer.appendChild(iframe);
-    const doc = iframe.contentWindow.document;
-    doc.open();
-    doc.write(`
-        <script>
-        atOptions = {
-            'key' : '322ca7932cf7d3f99004c81fd4b3fde5',
-            'format' : 'iframe',
-            'height' : 90,
-            'width' : 728,
-            'params' : {}
-        };
-        <\/script>
-        <script src="//www.highperformanceformat.com/322ca7932cf7d3f99004c81fd4b3fde5/invoke.js"><\/script>
-    `);
-    doc.close();
-}
-window.addEventListener('load', loadAdsterraBanner);
-window.addEventListener('resize', loadAdsterraBanner);
-</script>
 
 </body>
 </html>
