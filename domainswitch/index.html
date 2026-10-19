@@ -1,0 +1,64 @@
+```html
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diese URL wird eingestellt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        a {
+            color: #6ca6ff;
+        }
+
+        #timer {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Diese URL wird eingestellt</h1>
+
+    <div id="timer"></div>
+
+    <p>Startdatum: 26.10.2025</p>
+
+    <a href="https://plaffycube.com/">plaffycube.com</a>
+
+    <script>
+        const start = new Date(2025, 9, 26);
+        const end = new Date(start);
+        end.setFullYear(end.getFullYear() + 1);
+
+        function updateTimer() {
+            const remaining = end.getTime() - Date.now();
+
+            if (remaining <= 0) {
+                document.getElementById("timer").textContent = "00 Tage, 00 Stunden, 00 Minuten, 00 Sekunden";
+                return;
+            }
+
+            const days = Math.floor(remaining / 86400000);
+            const hours = Math.floor(remaining % 86400000 / 3600000);
+            const minutes = Math.floor(remaining % 3600000 / 60000);
+            const seconds = Math.floor(remaining % 60000 / 1000);
+
+            document.getElementById("timer").textContent =
+                `${days} Tage, ${hours} Stunden, ${minutes} Minuten, ${seconds} Sekunden`;
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
+```
